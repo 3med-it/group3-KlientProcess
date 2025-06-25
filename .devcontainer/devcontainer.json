@@ -1,18 +1,10 @@
+// .devcontainer/devcontainer.json
 {
   "name": "Symfony Customer-Process",
   "build": { "dockerfile": "Dockerfile" },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "felixfbecker.php-intellisense",
-        "bmewburn.vscode-intelephense-client",
-        "esbenp.prettier-vscode",
-        "ms-azuretools.vscode-docker",
-        "symfony.symfony-vscode"
-      ]
-    }
-  },
+  "customizations": { "vscode": { "extensions": [ /* Deine Extensions */ ] } },
   "forwardPorts": [8000],
-  "postCreateCommand": "composer install && php bin/console doctrine:database:create --if-not-exists && php bin/console doctrine:migrations:migrate --no-interaction",
+  // Temporär leer, bis Composer-Projekt erzeugt ist:
+  "postCreateCommand": "",
   "remoteUser": "vscode"
 }
