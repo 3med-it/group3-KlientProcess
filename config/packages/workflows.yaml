@@ -1,0 +1,32 @@
+framework:
+    workflows:
+        customer_process:
+            type: state_machine
+            supports: [ App\Entity\CustomerProcess ]
+            initial_marking: 'offen'
+            marking_store:
+                type: single_state
+                property: state
+            places:
+                - 'offen'
+                - 'kunde_angemeldet'
+                - 'kontaktgespraech_organisiert'
+                - 'kontaktgespraech_durchgefuehrt'
+                - 'erstberatung_vereinbart'
+            transitions:
+                anlegen:
+                    from: 'offen'
+                    to: 'kunde_angemeldet'
+                    guard: "true"
+                organisiere_gespraech:
+                    from: 'kunde_angemeldet'
+                    to: 'kontaktgespraech_organisiert'
+                    guard: "object.getEmail() != null or object.getPhone() != null"
+                fuehre_gespraech:
+                    from: 'kontaktgespraech_organisiert'
+                    to: 'kontaktgespraech_durchgefuehrt'
+                    guard: "true"
+                vereinbare_erstberatung:
+                    from: 'kontaktgespraech_durchgefuehrt'
+                    to: 'erstberatung_vereinbart'
+                    guard: "true"

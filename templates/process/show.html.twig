@@ -1,0 +1,31 @@
+{# templates/process/show.html.twig #}
+<h1>Prozess #{{ process.id }} – Status: {{ process.state|upper }}</h1>
+
+{# Formular, um Contact-Daten zu setzen #}
+<form method="post" action="{{ path('process_show', {id: process.id}) }}">
+  <label>Email:</label>
+  <input type="email" name="email" value="{{ process.email }}">
+  <label>Phone:</label>
+  <input type="text" name="phone" value="{{ process.phone }}">
+  <button type="submit" formaction="">Speichern</button>
+</form>
+
+{# Auswahl des nächsten Schritts #}
+<form method="post" action="{{ path('process_transition', {id: process.id}) }}">
+  <select name="transition">
+    {% for t in transitions %}
+      <option value="{{ t.name }}">{{ t.name|capitalize }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Weiter</button>
+</form>
+
+{# Optional: Audit-Log #}
+<h2>Audit</h2>
+<ul>
+  {% for audit in process.processAudits %}
+    <li>{{ audit.occurredAt|date('Y-m-d H:i') }} – {{ audit.transition }}</li>
+  {% else %}
+    <li>Keine Einträge.</li>
+  {% endfor %}
+</ul>
